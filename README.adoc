@@ -1,0 +1,17 @@
+= clean-kickerbox
+
+== How to develop:
+
+.Server
+[source]
+----
+cd kickerbox-server
+./gradlew quarkusDev
+----
+
+.Client
+[source]
+----
+cd kickerbox-client
+npm start
+----
