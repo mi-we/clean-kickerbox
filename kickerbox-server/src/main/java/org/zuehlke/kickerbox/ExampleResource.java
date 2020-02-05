@@ -1,4 +1,4 @@
-package org.zuehle.miwe;
+package org.zuehlke.kickerbox;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

@@ -5,6 +5,7 @@
 bin/
 
 # IntelliJ
+out/
 .idea
 *.ipr
 *.iml

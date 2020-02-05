@@ -15,6 +15,7 @@ dependencies {
 
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
+    testImplementation 'org.assertj:assertj-core:latest'
 }
 
 group 'org.zuehle.miwe'
