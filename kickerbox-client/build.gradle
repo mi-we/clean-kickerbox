@@ -18,7 +18,6 @@ npm_run_build {
 
     outputs.dir 'build'
 }
-build.dependsOn npm_run_build
 
 task start(type: NpmTask) {
     args = ['start']
@@ -26,4 +25,34 @@ task start(type: NpmTask) {
 
 task test(type: NpmTask) {
     args = ['test']
+}
+
+task packageClient(type: Zip) {
+    dependsOn npm_run_build
+    baseName 'kickerbox-client'
+    extension 'jar'
+
+    destinationDir file("${projectDir}/build_packageClient")
+
+    from('build') {
+        into 'META-INF/resources'
+    }
+}
+
+assemble.dependsOn packageClient
+
+configurations {
+    npmResources
+}
+configurations.default.extendsFrom(configurations.npmResources)
+
+artifacts {
+    npmResources(packageClient.archivePath) {
+        builtBy packageClient
+        type "jar"
+    }
+}
+
+clean {
+    delete packageClient.archivePath
 }
