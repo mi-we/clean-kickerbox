@@ -6,6 +6,10 @@ pluginManagement {
     }
     plugins {
       id 'io.quarkus' version "${quarkusPluginVersion}"
+      id 'com.github.node-gradle.node' version "${nodePluginVersion}"
     }
 }
-rootProject.name='kickerbox-server'
+
+rootProject.name='kickerbox'
+include 'kickerbox-server'
+include 'kickerbox-client'

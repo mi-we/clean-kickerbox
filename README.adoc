@@ -12,6 +12,5 @@ cd kickerbox-server
 .Client
 [source]
 ----
-cd kickerbox-client
-npm start
+./gradlew :kickerbox-client:npm_start
 ----
