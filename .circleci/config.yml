@@ -9,11 +9,11 @@ jobs:
     environment:
       GRAALVM_HOME: /home/circleci/.graalvm
     steps:
+      - checkout
+
         # Install OpenJdk
       - openjdk-install/openjdk:
           version: 11
-
-      - checkout
 
       # Standard maven build and test phases - does not perform a native build (or verify)
       - run:
