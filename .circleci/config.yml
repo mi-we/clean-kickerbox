@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  openjdk-install: cloudesire/openjdk-install@1.2.3
 jobs:
   build:
     machine: true
@@ -7,11 +9,13 @@ jobs:
     environment:
       GRAALVM_HOME: /home/circleci/repo/.graalvm
     steps:
+        # Install OpenJdk
+      - openjdk-install/openjdk:
+          version: 11
 
       - checkout
 
       # Standard maven build and test phases - does not perform a native build (or verify)
-      # ########################
       - run:
           name: Build (Standard)
           command: ./gradlew build -xtest
@@ -20,7 +24,6 @@ jobs:
           command: ./gradlew test
 
       # Install GraalVM and native-image, needed for a native Quarkus build
-      # ########################
       - run:
           name: Install GraalVM
           command: |
@@ -33,7 +36,6 @@ jobs:
           command: $GRAALVM_HOME/bin/gu install native-image
 
       # Perform a native Quarkus build and verify
-      # ########################
       - run:
           name: Build (Native)
           command: ./gradlew :kickerbox-server:buildNative -xtestNative
