@@ -36,14 +36,22 @@ jobs:
           command: $GRAALVM_HOME/bin/gu install native-image
 
       # Perform a native Quarkus build and verify
+
       - run:
-          name: Build (Native)
-          command: ./gradlew :kickerbox-server:buildNative -xtestNative
-          no_output_timeout: 30m
-      - run:
-          name: Verify (Native)
+          name: Build and Verify (Native)
           command: ./gradlew :kickerbox-server:testNative
           no_output_timeout: 30m
+
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+      - store_test_results:
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results/junit
 
       - run:
           name: Build native docker image
@@ -53,5 +61,5 @@ jobs:
           name: Push to heroku
           command: |
             docker login --username=$HEROKU_LOGIN --password $HEROKU_API_KEY registry.heroku.com
-            docker tag mi-we/kickerbox:$CIRCLE_SHA1 registry.heroku.com/$HEROKU_APP_NAME/web
-            docker push registry.heroku.com/$HEROKU_APP_NAME/web
+            docker tag mi-we/kickerbox:$CIRCLE_SHA1 registry.heroku.com/kickerbox/web
+            docker push registry.heroku.com/kickerbox/web
